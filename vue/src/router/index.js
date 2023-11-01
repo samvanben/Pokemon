@@ -5,6 +5,9 @@ import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
+import Pokemon from '../views/Pokemon.vue'
+import Detail from '../views/Detail.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(Router)
 
@@ -25,6 +28,22 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/pokemon",
+      name: "pokemon",
+      component: Pokemon,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/detail/:name",
+      name: "detail",
+      component: Detail,
       meta: {
         requiresAuth: true
       }
@@ -52,6 +71,11 @@ const router = new Router({
       meta: {
         requiresAuth: false
       }
+    },
+    {
+      path:'/:pathMatch(.*)*',
+      name:'NotFound',
+      component:NotFound
     }
   ]
 })
