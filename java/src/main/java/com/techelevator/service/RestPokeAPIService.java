@@ -6,10 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techelevator.model.Pokemon;
 import com.techelevator.model.PokemonDetail;
 import com.techelevator.model.Results;
+import com.techelevator.model.Sprite;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,12 +43,16 @@ public class RestPokeAPIService implements PokeAPIService{
                 String name = root.path(i).path("name").asText();
                 String url = root.path(i).path("url").asText();
                 int id = calculateId(url);
+                // this assigned sprites based on id but broke the rest of code
+                Sprite sprite = new Sprite("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/" + id + ".png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png");
 
                 // create a pokemon object and set the values
                 Pokemon temp = new Pokemon();
                 temp.setId(id);
                 temp.setName(name);
                 temp.setUrl(url);
+                // this temp was used to assign sprite on list page but broke rest of code
+                temp.setSprite(sprite);
                 pokemonList.add(temp);
             }
         } catch (JsonProcessingException e) {
@@ -75,7 +83,13 @@ public class RestPokeAPIService implements PokeAPIService{
 
     @Override
     public PokemonDetail getPokemonDetailByName(String name) {
-        PokemonDetail pokemonDetail = rt.getForObject(API_URL + name, PokemonDetail.class);
+        PokemonDetail pokemonDetail = new PokemonDetail();
+        try {
+            pokemonDetail = rt.getForObject(API_URL + name, PokemonDetail.class);
+        } catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+//        PokemonDetail pokemonDetail = rt.getForObject(API_URL + name, PokemonDetail.class);
         return pokemonDetail;
     }
 
@@ -87,6 +101,7 @@ public class RestPokeAPIService implements PokeAPIService{
         for (Pokemon item: list){
             int id = calculateId(item.getUrl());
             item.setId(id);
+            item.setSprite(new Sprite("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/" + id + ".png", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png"));
 
         }
         return list;

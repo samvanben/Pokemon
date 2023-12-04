@@ -9,6 +9,16 @@ public class PokemonDto {
     private int apiId;
     private String name;
     private String url;
+    @JsonProperty("sprites")
+    private Sprite sprite;
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
     public int getPokemonId() {
         return pokemonId;

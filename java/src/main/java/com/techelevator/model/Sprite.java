@@ -25,6 +25,14 @@ public class Sprite {
         this.frontDefault = frontDefault;
     }
 
+    public Sprite(String backDefault, String frontDefault) {
+        this.backDefault = backDefault;
+        this.frontDefault = frontDefault;
+    }
+
+    public Sprite() {
+    }
+
     @Override
     public String toString() {
         return "Sprite{" +

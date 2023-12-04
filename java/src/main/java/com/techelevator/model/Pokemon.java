@@ -1,10 +1,23 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Pokemon {
 
     private int id;
     private String name;
     private String url;
+
+    @JsonProperty("sprites")
+    private Sprite sprite;
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
     public int getId() {
         return id;
