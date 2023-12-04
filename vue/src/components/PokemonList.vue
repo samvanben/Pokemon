@@ -106,7 +106,7 @@ ul {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
-  background-image: url(E:\workspace\Pokemon\Pokemon\vue\public\Images\pokemon_pc_background.png);
+  background-image: url(../../public/Images/pokemon_pc_background.png);
   background-color: #7dce82;
   border-style: outset;
   border-color: #c8f7c2;
